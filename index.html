@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>115學年度康軒國文九年級第二次段考線上複習網</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#16a34a',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="bg-white text-emerald-700 font-black px-2.5 py-1 rounded-lg text-xl shadow">
+                    國9
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wide">115學年度 康軒國文段考特訓</h1>
+                    <p class="text-xs text-emerald-100">九年級第二次段考（第四課~第六課 + 對聯 + 自二）</p>
+                </div>
+            </div>
+            
+            <nav class="flex items-center space-x-1 md:space-x-2 mt-2 sm:mt-0 text-sm overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 font-medium hover:bg-emerald-600">
+                    <i class="fa-solid fa-pen-to-square"></i><span>測驗練習</span>
+                </button>
+                <button onclick="switchTab('recitation')" id="nav-recitation" class="px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 font-medium hover:bg-emerald-600">
+                    <i class="fa-solid fa-scroll"></i><span>默寫特訓</span>
+                </button>
+                <button onclick="switchTab('flashcard')" id="nav-flashcard" class="px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 font-medium hover:bg-emerald-600">
+                    <i class="fa-solid fa-clone"></i><span>單字卡</span>
+                </button>
+                <button onclick="switchTab('study')" id="nav-study" class="px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 font-medium hover:bg-emerald-600">
+                    <i class="fa-solid fa-book-open"></i><span>總筆記</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+        
+        <!-- ================= HOME / DASHBOARD TAB ================= -->
+        <section id="tab-home" class="tab-content space-y-6">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl text-white p-6 md:p-8 shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block bg-emerald-800 bg-opacity-50 text-emerald-100 text-xs px-3 py-1 rounded-full font-semibold mb-3">
+                        🎯 考前衝刺總複習
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold mb-3 leading-snug">
+                        國文九年級第二次段考 線上練習測驗網
+                    </h2>
+                    <p class="text-emerald-100 text-sm md:text-base mb-6 leading-relaxed">
+                        完整收錄康軒版第九冊第4~6課字詞解釋、對聯常識與成語，以及《生於憂患死於安樂》必考默寫。隨時隨地刷題，輕鬆補強弱點！
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="switchTab('quiz')" class="bg-white text-emerald-800 font-bold px-5 py-2.5 rounded-xl hover:bg-emerald-50 transition shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> 開始測驗
+                        </button>
+                        <button onclick="switchTab('recitation')" class="bg-emerald-800/60 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl transition flex items-center gap-2 border border-emerald-500/30">
+                            <i class="fa-solid fa-highlighter"></i> 默寫特訓
+                        </button>
+                        <button onclick="openDisclaimerModal()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-xl transition shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-file-arrow-down"></i> 下載解釋單
+                        </button>
+                    </div>
+                </div>
+                <div class="absolute -right-8 -bottom-10 opacity-15 pointer-events-none hidden md:block">
+                    <i class="fa-solid fa-book-bookmark text-[220px]"></i>
+                </div>
+            </div>
+
+            <!-- Scope Overview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg">
+                            四
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">第四課</h3>
+                            <p class="text-xs text-slate-500">生於憂患死於安樂</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 line-clamp-2 mb-3">包含「畎畝」、「管夷吾舉於士」、「空乏其身」、「動心忍性」等重點字詞註釋。</p>
+                    <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium">12 個重要詞條</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg">
+                            五
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">第五課</h3>
+                            <p class="text-xs text-slate-500">重點選文字詞</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 line-clamp-2 mb-3">收錄「糜」、「半晌」、「噘」、「恙」、「未雨綢繆」等日常與成語應用。</p>
+                    <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium">5 個重要詞條</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">
+                            六
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">第六課</h3>
+                            <p class="text-xs text-slate-500">自然與文意描寫</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 line-clamp-2 mb-3">涵蓋「鞍部」、「篝火」、「絮絮叨叨」、「神祇」、「頹然」、「戲謔」等詞彙。</p>
+                    <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium">6 個重要詞條</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg">
+                            對
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">語文天地 對聯</h3>
+                            <p class="text-xs text-slate-500">對聯與文化成語</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 line-clamp-2 mb-3">必考成語「沉李浮瓜」、「百城富有」、「名山事業」、「光風霽月」等。</p>
+                    <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium">5 個重要對聯成語</span>
+                </div>
+            </div>
+
+            <!-- Quiz Quick Stats Section -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h3 class="font-bold text-lg text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-emerald-600"></i> 我的練習統計
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-2xl font-black text-emerald-600" id="stat-completed-count">0</div>
+                        <div class="text-xs text-slate-500 mt-1">完成測驗次數</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-2xl font-black text-blue-600" id="stat-highest-score">0%</div>
+                        <div class="text-xs text-slate-500 mt-1">最高正確率</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-2xl font-black text-purple-600" id="stat-wrong-count">0</div>
+                        <div class="text-xs text-slate-500 mt-1">累積錯題數</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-2xl font-black text-amber-600" id="stat-recitation-status">未完成</div>
+                        <div class="text-xs text-slate-500 mt-1">默寫特訓狀態</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= QUIZ TAB ================= -->
+        <section id="tab-quiz" class="tab-content hidden space-y-6">
+            <!-- Quiz Filter & Setup -->
+            <div id="quiz-setup-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-emerald-600"></i> 設定測驗範圍
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">選擇題目範圍</label>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="quiz-scope-selector">
+                            <button onclick="toggleScopeFilter('all')" data-scope="all" class="scope-btn px-3 py-2 text-sm rounded-xl border border-emerald-600 bg-emerald-50 text-emerald-700 font-medium">全範圍 (28題)</button>
+                            <button onclick="toggleScopeFilter('ch4')" data-scope="ch4" class="scope-btn px-3 py-2 text-sm rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium">第四課 (12題)</button>
+                            <button onclick="toggleScopeFilter('ch5')" data-scope="ch5" class="scope-btn px-3 py-2 text-sm rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium">第五課 (5題)</button>
+                            <button onclick="toggleScopeFilter('ch6')" data-scope="ch6" class="scope-btn px-3 py-2 text-sm rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium">第六課 (6題)</button>
+                            <button onclick="toggleScopeFilter('couplet')" data-scope="couplet" class="scope-btn px-3 py-2 text-sm rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium">對聯成語 (5題)</button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="startQuiz(10)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl transition shadow flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> 開始 10 題快速測驗
+                        </button>
+                        <button onclick="startQuiz('all')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl transition shadow flex items-center gap-2">
+                            <i class="fa-solid fa-list-check"></i> 開始全範圍挑戰測驗
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Active Screen -->
+            <div id="quiz-active-card" class="hidden bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-md">
+                <!-- Progress Header -->
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <div class="flex items-center space-x-2">
+                        <span id="quiz-scope-badge" class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-md font-bold">全範圍</span>
+                        <span class="text-sm text-slate-500 font-medium">第 <span id="current-q-index" class="text-emerald-600 font-bold">1</span> / <span id="total-q-count">10</span> 題</span>
+                    </div>
+                    <div class="text-sm font-semibold text-slate-600 flex items-center gap-1">
+                        <i class="fa-regular fa-clock text-slate-400"></i> <span id="quiz-timer">00:00</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 rounded-full h-2 mb-6 overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-emerald-500 h-2 rounded-full transition-all duration-300" style="width: 10%"></div>
+                </div>
+
+                <!-- Question Title -->
+                <div class="mb-6">
+                    <h3 id="question-text" class="text-xl md:text-2xl font-bold text-slate-800 leading-snug">
+                        載入中...
+                    </h3>
+                </div>
+
+                <!-- Options Grid -->
+                <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                    <!-- Dynamic Options Inserted Here -->
+                </div>
+
+                <!-- Explanation Box (Shows after answering) -->
+                <div id="explanation-box" class="hidden p-4 rounded-xl bg-slate-50 border border-slate-200 mb-6 text-sm">
+                    <div class="font-bold text-slate-700 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-blue-500"></i> 解析說明：
+                    </div>
+                    <div id="explanation-text" class="text-slate-600"></div>
+                </div>
+
+                <!-- Footer Navigation Buttons -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                    <button id="prev-q-btn" onclick="prevQuestion()" class="px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 text-sm font-medium disabled:opacity-30 disabled:hover:bg-transparent">
+                        <i class="fa-solid fa-arrow-left"></i> 上一題
+                    </button>
+                    <button id="next-q-btn" onclick="nextQuestion()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
+                        <span>下一題</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Screen -->
+            <div id="quiz-result-card" class="hidden bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-md text-center">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl font-black">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-800 mb-2">測驗完成！</h2>
+                <p class="text-slate-500 text-sm mb-6">以下是您的測驗成果表現</p>
+
+                <div class="max-w-md mx-auto bg-slate-50 rounded-2xl p-6 border border-slate-100 mb-8 grid grid-cols-3 gap-2">
+                    <div>
+                        <div class="text-3xl font-black text-emerald-600" id="result-score">0</div>
+                        <div class="text-xs text-slate-500 mt-1">得分</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-black text-blue-600" id="result-accuracy">0%</div>
+                        <div class="text-xs text-slate-500 mt-1">正確率</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-black text-slate-700" id="result-time">00:00</div>
+                        <div class="text-xs text-slate-500 mt-1">花費時間</div>
+                    </div>
+                </div>
+
+                <!-- Review Wrong Questions Section -->
+                <div id="wrong-questions-section" class="text-left mb-8 hidden">
+                    <h3 class="font-bold text-slate-800 text-lg mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-xmark text-rose-500"></i> 錯題檢討
+                    </h3>
+                    <div id="wrong-questions-list" class="space-y-3">
+                        <!-- Dynamic Wrong Questions -->
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="restartQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl transition shadow flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> 再測驗一次
+                    </button>
+                    <button onclick="switchTab('recitation')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl transition shadow flex items-center gap-2">
+                        <i class="fa-solid fa-scroll"></i> 前往默寫特訓
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= RECITATION TAB ================= -->
+        <section id="tab-recitation" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex flex-wrap justify-between items-center mb-6 gap-3">
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold">段考必考默寫</span>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">《生於憂患死於安樂》默寫特訓</h2>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-wrap gap-2">
+                        <button onclick="openDisclaimerModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <span>解釋單檔案下載</span>
+                        </button>
+                        <button onclick="resetRecitation()" class="text-slate-500 hover:text-emerald-600 text-sm font-medium flex items-center gap-1 px-3 py-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition">
+                            <i class="fa-solid fa-rotate"></i> 重設
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mode Switcher Buttons -->
+                <div class="flex flex-wrap gap-2 mb-4 bg-slate-100 p-1.5 rounded-xl border border-slate-200/80 text-sm font-medium">
+                    <button onclick="switchRecitationMode('select')" id="btn-recite-select" class="flex-1 py-2 px-3 rounded-lg font-bold bg-white text-emerald-800 shadow transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> 下拉選擇
+                    </button>
+                    <button onclick="switchRecitationMode('input')" id="btn-recite-input" class="flex-1 py-2 px-3 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen-field"></i> 挖空填空
+                    </button>
+                    <button onclick="switchRecitationMode('full')" id="btn-recite-full" class="flex-1 py-2 px-3 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-keyboard"></i> 默寫（純手打）
+                    </button>
+                </div>
+
+                <p id="recitation-tip" class="text-sm text-slate-600 mb-6 bg-amber-50/70 p-3 rounded-xl border border-amber-200/60 leading-relaxed">
+                    💡 提示：請點擊文字空格選出正確字詞，完成後點擊「提交對答案」檢查完成度！
+                </p>
+
+                <!-- Interactive Recitation Container (Select & Input Modes) -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-lg leading-loose font-serif tracking-wide text-slate-800 space-y-4" id="recitation-container">
+                    <!-- Inserted by JS -->
+                </div>
+
+                <!-- Full Typing Textarea Container (Hidden by default) -->
+                <div id="recitation-full-typing-container" class="hidden space-y-4">
+                    <textarea id="full-typing-textarea" rows="7" placeholder="請在此背誦並手打輸入《生於憂患死於安樂》全文...&#10;（例：故天將降大任於是人也，必先苦其心志...）" class="w-full p-4 rounded-2xl border border-slate-300 font-serif text-lg leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-inner text-slate-800"></textarea>
+                    <div id="full-typing-result" class="hidden p-4 rounded-2xl border text-sm leading-relaxed font-serif"></div>
+                </div>
+
+                <div class="mt-6 flex flex-wrap justify-between items-center pt-4 border-t border-slate-100 gap-4">
+                    <div id="recitation-score-msg" class="font-bold text-emerald-700 hidden">
+                        <!-- Score feedback -->
+                    </div>
+                    <div class="flex space-x-3 ml-auto">
+                        <button onclick="toggleRecitationAnswer()" class="px-5 py-2.5 border border-slate-300 rounded-xl text-slate-700 font-semibold hover:bg-slate-100 text-sm transition">
+                            <i class="fa-solid fa-eye"></i> 顯示完整原文
+                        </button>
+                        <button onclick="checkRecitation()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl shadow transition text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-check-double"></i> 提交對答案
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Full Text Display Modal / Box -->
+                <div id="full-recitation-text" class="hidden mt-6 p-5 bg-emerald-50/80 rounded-2xl border border-emerald-200 font-serif leading-relaxed text-emerald-950">
+                    <h4 class="font-bold text-base mb-2 font-sans text-emerald-800">《生於憂患死於安樂》全文：</h4>
+                    <p>「故天將降大任於是人也，必先苦其心志，勞其筋骨，餓其體膚，空乏其身，行拂亂其所為，所以動心忍性，曾益其所不能。</p>
+                    <p class="mt-2">人恆過，然後能改。困於心，衡於慮，而後作；徵於色，發於聲，而後喻。入則無法家拂士，出則無敵國外患者，國恆亡。然後知生於憂患，而死於安樂也。」</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FLASHCARD TAB ================= -->
+        <section id="tab-flashcard" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex flex-wrap justify-between items-center mb-4 gap-3">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">字詞註釋 翻牌記憶卡</h2>
+                        <p class="text-xs text-slate-500 mt-1">點擊卡片即可翻面查看解釋，左右切換進行卡片式速記</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <select id="flashcard-scope-select" onchange="changeFlashcardScope(this.value)" class="text-sm bg-slate-100 border border-slate-200 rounded-xl px-3 py-1.5 font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="all">全範圍 (28條)</option>
+                            <option value="ch4">第四課 (12條)</option>
+                            <option value="ch5">第五課 (5條)</option>
+                            <option value="ch6">第六課 (6條)</option>
+                            <option value="couplet">語文天地對聯 (5條)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Flashcard Stage -->
+                <div class="py-6 flex flex-col items-center">
+                    <div id="flashcard" onclick="flipCard()" class="w-full max-w-lg h-64 perspective-1000 cursor-pointer">
+                        <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d shadow-xl rounded-2xl border border-slate-200">
+                            <!-- Front Side -->
+                            <div class="absolute w-full h-full bg-white rounded-2xl p-6 backface-hidden flex flex-col justify-between items-center text-center">
+                                <span id="card-chapter-tag" class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold">
+                                    第四課
+                                </span>
+                                <div class="my-auto">
+                                    <h3 id="card-word" class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">
+                                        畎畝
+                                    </h3>
+                                    <p class="text-xs text-slate-400">（點擊卡片顯示解釋）</p>
+                                </div>
+                                <div class="text-xs text-slate-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-hand-pointer"></i> 點擊翻牌
+                                </div>
+                            </div>
+                            <!-- Back Side -->
+                            <div class="absolute w-full h-full bg-emerald-700 text-white rounded-2xl p-6 backface-hidden rotate-y-180 flex flex-col justify-between items-center text-center">
+                                <span class="bg-emerald-800 text-emerald-200 text-xs px-3 py-1 rounded-full font-semibold">
+                                    字詞解釋
+                                </span>
+                                <div class="my-auto">
+                                    <p id="card-definition" class="text-xl md:text-2xl font-bold leading-relaxed">
+                                        田間水溝
+                                    </p>
+                                </div>
+                                <div class="text-xs text-emerald-200">
+                                    解答對照
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <div class="flex items-center space-x-4 mt-6">
+                        <button onclick="prevCard()" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition shadow-sm">
+                            <i class="fa-solid fa-chevron-left text-lg"></i>
+                        </button>
+                        <span class="text-slate-600 font-semibold text-sm">
+                            <span id="card-index">1</span> / <span id="card-total">28</span>
+                        </span>
+                        <button onclick="nextCard()" class="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition shadow-sm">
+                            <i class="fa-solid fa-chevron-right text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STUDY SHEET TAB ================= -->
+        <section id="tab-study" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex flex-wrap justify-between items-center mb-6 gap-3">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">115學年度第二次段考解釋總筆記</h2>
+                        <p class="text-xs text-slate-500 mt-1">可依課別篩選或即時關鍵字搜尋</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <div class="relative flex-1 sm:w-64">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="text" id="study-search" oninput="renderStudyTable()" placeholder="搜尋字詞或解釋..." class="w-full pl-9 pr-3 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                        <button onclick="toggleHideAnswers()" id="toggle-hide-btn" class="px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 transition">
+                            <i class="fa-solid fa-eye-slash"></i> 遮蔽解釋自測
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Scope Tabs for Study Sheet -->
+                <div class="flex space-x-2 border-b border-slate-100 pb-3 mb-4 overflow-x-auto text-sm">
+                    <button onclick="filterStudyScope('all')" data-studyscope="all" class="study-scope-btn font-semibold px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800">全部 (28)</button>
+                    <button onclick="filterStudyScope('ch4')" data-studyscope="ch4" class="study-scope-btn text-slate-600 hover:bg-slate-100 px-3 py-1.5 rounded-lg">第四課 (12)</button>
+                    <button onclick="filterStudyScope('ch5')" data-studyscope="ch5" class="study-scope-btn text-slate-600 hover:bg-slate-100 px-3 py-1.5 rounded-lg">第五課 (5)</button>
+                    <button onclick="filterStudyScope('ch6')" data-studyscope="ch6" class="study-scope-btn text-slate-600 hover:bg-slate-100 px-3 py-1.5 rounded-lg">第六課 (6)</button>
+                    <button onclick="filterStudyScope('couplet')" data-studyscope="couplet" class="study-scope-btn text-slate-600 hover:bg-slate-100 px-3 py-1.5 rounded-lg">語文天地對聯 (5)</button>
+                </div>
+
+                <!-- Study Table -->
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600 text-xs font-bold uppercase border-b border-slate-200">
+                                <th class="p-3.5 w-24">課別</th>
+                                <th class="p-3.5 w-48">字詞 / 成語</th>
+                                <th class="p-3.5">正確字詞解釋</th>
+                            </tr>
+                        </thead>
+                        <tbody id="study-table-body" class="divide-y divide-slate-100 text-sm">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs mt-auto border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 space-y-1">
+            <p class="font-medium text-slate-300">115學年度第一學期 康軒版國文九年級第二次段考複習網</p>
+            <p class="text-slate-500">範圍：第四課~第六課 + 對聯 + 自二（生於憂患死於安樂）</p>
+        </div>
+    </footer>
+
+    <!-- Modal: Disclaimer & Download Selector -->
+    <div id="disclaimer-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> 解釋單使用須知與聲明
+                </h3>
+                <button onclick="closeDisclaimerModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="py-4 space-y-3 overflow-y-auto custom-scrollbar text-sm text-slate-600 leading-relaxed">
+                <div class="bg-amber-50 p-3 rounded-xl border border-amber-200/60 text-amber-900 text-xs font-medium">
+                    📌 <strong>解釋單專區：</strong>內容僅供參考，若有少打或寫錯請見諒。禁止用於作弊，抓到後果自負。
+                </div>
+
+                <div class="space-y-1">
+                    <h4 class="font-bold text-slate-800">1. 內容準確性說明：</h4>
+                    <p class="pl-3 border-l-2 border-indigo-200">本解釋單為本人（伺服器擁有者）個人整理之版本，雖參考教學內容製作，但不代表官方答案。內容可能存在手工輸入錯誤、缺漏或個人理解偏差，請使用者在參考時務必與老師發放的教材進行二次核對。</p>
+                </div>
+
+                <div class="space-y-1">
+                    <h4 class="font-bold text-slate-800">2. 學習目的與誠信要求：</h4>
+                    <p class="pl-3 border-l-2 border-indigo-200">本資料僅供「課後複習」與「自我檢測」使用。嚴禁在任何正式考試、測驗中翻閱、參考或以任何形式轉化為不正當用途（如：作弊、抄襲）。</p>
+                </div>
+
+                <div class="space-y-1">
+                    <h4 class="font-bold text-slate-800">3. 責任免責聲明（重要）：</h4>
+                    <ul class="pl-3 border-l-2 border-amber-300 space-y-1">
+                        <li><strong class="text-rose-600">作弊行為：</strong>若有任何人將此解釋單用於作弊行為，純屬使用者之個人違規行為，本人不負任何法律、校規或道義上的連帶責任。</li>
+                        <li><strong class="text-amber-700">成績影響：</strong>若因參考本資料之錯誤內容而導致成績受損或學習偏差，本人不負賠償或修正之義務。</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-1">
+                    <h4 class="font-bold text-slate-800">4. 版權與散布規範：</h4>
+                    <p class="pl-3 border-l-2 border-indigo-200">本解釋單僅分享給本伺服器內指定的同學。未經許可，嚴禁截圖、轉發、外傳至其他群組或社群平台，若轉發後發生作弊相關事件，請自行負責。</p>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex flex-wrap gap-2 justify-end">
+                <button onclick="closeDisclaimerModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 text-sm font-semibold transition">
+                    取消
+                </button>
+                <button onclick="confirmAndDownload('blank')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-sm font-bold transition shadow flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-pen"></i> 同意並開啟【空白版】
+                </button>
+                <button onclick="confirmAndDownload('answer')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition shadow flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-circle-check"></i> 同意並開啟【解答版】
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const VOCABULARY_DATA = [
+            // 第四課
+            { id: 1, chapter: 'ch4', chapterName: '第四課', word: '畎畝', definition: '田間水溝', note: '「畝」指田間水溝或田疇。' },
+            { id: 2, chapter: 'ch4', chapterName: '第四課', word: '管夷吾舉於「士」', definition: '監獄', note: '管仲被舉用前獄於士官。' },
+            { id: 3, chapter: 'ch4', chapterName: '第四課', word: '空乏其身', definition: '使他的身家窮困貧乏', note: '空乏：貧困窮困。' },
+            { id: 4, chapter: 'ch4', chapterName: '第四課', word: '行拂亂其所為', definition: '又使他的所作所為受到阻撓', note: '拂：違背；亂：擾亂、阻撓。' },
+            { id: 5, chapter: 'ch4', chapterName: '第四課', word: '動心忍性', definition: '激勵他的心志，堅忍他的性情', note: '動：激勵；忍：使...堅忍。' },
+            { id: 6, chapter: 'ch4', chapterName: '第四課', word: '曾益其所不能', definition: '增加他所欠缺的能力', note: '曾：通「增」，增加。' },
+            { id: 7, chapter: 'ch4', chapterName: '第四課', word: '困於心', definition: '內心感到困難、困惑', note: '指思想受阻困惑。' },
+            { id: 8, chapter: 'ch4', chapterName: '第四課', word: '徵於色', definition: '顯現在臉色上', note: '徵：表現、顯現。' },
+            { id: 9, chapter: 'ch4', chapterName: '第四課', word: '衡於慮', definition: '思慮受到阻塞', note: '衡：通「橫」，阻塞。' },
+            { id: 10, chapter: 'ch4', chapterName: '第四課', word: '發於聲', definition: '表現在言語中', note: '抒發於語音口氣。' },
+            { id: 11, chapter: 'ch4', chapterName: '第四課', word: '法家', definition: '守法度的大臣', note: '指朝廷內嚴格恪守法規的大臣。' },
+            { id: 12, chapter: 'ch4', chapterName: '第四課', word: '拂士', definition: '輔政的賢士', note: '拂：通「輔」，輔佐。' },
+
+            // 第五課
+            { id: 13, chapter: 'ch5', chapterName: '第五課', word: '糜', definition: '濃稠的稀飯', note: '常用作濃粥。' },
+            { id: 14, chapter: 'ch5', chapterName: '第五課', word: '半晌', definition: '一會兒、片刻', note: '形容極短的時間。' },
+            { id: 15, chapter: 'ch5', chapterName: '第五課', word: '噘', definition: '兩脣閉合而翹起的動作', note: '常見於表達不滿或撒嬌。' },
+            { id: 16, chapter: 'ch5', chapterName: '第五課', word: '恙', definition: '疾病', note: '如「別來無恙」。' },
+            { id: 17, chapter: 'ch5', chapterName: '第五課', word: '未雨綢繆', definition: '比喻事先預備，防患未然', note: '綢繆：緊密纏縛修補。' },
+
+            // 第六課
+            { id: 18, chapter: 'ch6', chapterName: '第六課', word: '鞍部', definition: '兩山間的低淺地帶，形似馬鞍', note: '地理地形用語。' },
+            { id: 19, chapter: 'ch6', chapterName: '第六課', word: '篝火', definition: '竹籠', note: '或指用竹籠罩著的火火堆。' },
+            { id: 20, chapter: 'ch6', chapterName: '第六課', word: '絮絮叨叨', definition: '形容言語瑣碎囉嗦', note: '描寫話多說不停。' },
+            { id: 21, chapter: 'ch6', chapterName: '第六課', word: '神祇', definition: '地神', note: '「祇」讀音ㄑㄧˊ，專指地神（天神曰神，地神曰祇）。' },
+            { id: 22, chapter: 'ch6', chapterName: '第六課', word: '頹然', definition: '乏力欲倒的樣子', note: '形容衰弱乏力。' },
+            { id: 23, chapter: 'ch6', chapterName: '第六課', word: '戲謔', definition: '開玩笑', note: '形容語言動作逗趣開玩笑。' },
+
+            // 語文天地 對聯
+            { id: 24, chapter: 'couplet', chapterName: '語文天地', word: '乾坤', definition: '天地', note: '易經卦名衍生為天地。' },
+            { id: 25, chapter: 'couplet', chapterName: '語文天地', word: '沉李浮瓜', definition: '夏天清涼可口的食物', note: '比喻夏日消暑勝事。' },
+            { id: 26, chapter: 'couplet', chapterName: '語文天地', word: '百城富有', definition: '形容藏書豐富，有如坐擁百座城市一般', note: '對聯常客，讚美藏書家。' },
+            { id: 27, chapter: 'couplet', chapterName: '語文天地', word: '名山事業', definition: '比喻不朽的著述', note: '語出「藏之名山，傳之其人」。' },
+            { id: 28, chapter: 'couplet', chapterName: '語文天地', word: '光風霽月', definition: '比喻人的胸懷坦蕩，品格高潔', note: '霽：雨過天晴。' }
+        ];
+
+        // Recitation Segments Data
+        const RECITATION_PIECES = [
+            { text: "故天將降大任於是人也，必先", key: "苦其心志", options: ["苦其心志", "勞其筋骨", "餓其體膚"] },
+            { text: "，", key: "勞其筋骨", options: ["勞其筋骨", "動心忍性", "空乏其身"] },
+            { text: "，餓其體膚，", key: "空乏其身", options: ["空乏其身", "貧困其身", "亂其所為"] },
+            { text: "，行", key: "拂亂其所為", options: ["拂亂其所為", "阻撓其心志", "顛覆其行為"] },
+            { text: "，所以", key: "動心忍性", options: ["動心忍性", "磨練身心", "曾益其能"] },
+            { text: "，", key: "曾益其所不能", options: ["曾益其所不能", "增進其所短", "堅忍其性情"] },
+            { text: "。人恆過，然後能改。困於心，", key: "衡於慮", options: ["衡於慮", "橫於慮", "阻於思"] },
+            { text: "，而後作；", key: "徵於色", options: ["徵於色", "顯於面", "發於聲"] },
+            { text: "，發於聲，而後喻。入則無", key: "法家拂士", options: ["法家拂士", "法家輔士", "賢臣輔士"] },
+            { text: "，出則無敵國外患者，", key: "國恆亡", options: ["國恆亡", "國必危", "社稷敗"] },
+            { text: "。然後知生於憂患，而", key: "死於安樂", options: ["死於安樂", "敗於懈怠", "死於平庸"] },
+            { text: "也。", key: "", options: [] }
+        ];
+
+        let activeTab = 'home';
+        let currentQuizScope = 'all';
+        let activeQuestions = [];
+        let currentQuestionIdx = 0;
+        let userAnswers = {};
+        let quizStartTime = null;
+        let quizTimerInterval = null;
+        let isQuizSubmitted = false;
+
+        // Flashcard State
+        let flashcardScope = 'all';
+        let currentCardList = [];
+        let currentCardIdx = 0;
+        let isCardFlipped = false;
+
+        // Study Table State
+        let studyScope = 'all';
+        let hideAnswers = false;
+
+        // User Stats
+        let stats = {
+            completedCount: 0,
+            highestScore: 0,
+            wrongCount: 0,
+            recitationDone: false
+        };
+
+        // Recitation State
+        let recitationUserAnswers = {};
+        let recitationMode = 'select'; // 'select' | 'input' | 'full'
+        const FULL_TARGET_TEXT = "故天將降大任於是人也，必先苦其心志，勞其筋骨，餓其體膚，空乏其身，行拂亂其所為，所以動心忍性，曾益其所不能。人恆過，然後能改。困於心，衡於慮，而後作；徵於色，發於聲，而後喻。入則無法家拂士，出則無敵國外患者，國恆亡。然後知生於憂患，而死於安樂也。";
+
+        window.onload = function() {
+            loadStats();
+            initRecitation();
+            initFlashcards();
+            renderStudyTable();
+        };
+
+        function switchRecitationMode(mode) {
+            recitationMode = mode;
+            
+            const btnSelect = document.getElementById('btn-recite-select');
+            const btnInput = document.getElementById('btn-recite-input');
+            const btnFull = document.getElementById('btn-recite-full');
+
+            [btnSelect, btnInput, btnFull].forEach(btn => {
+                btn.className = "flex-1 py-2 px-3 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2";
+            });
+
+            const tipEl = document.getElementById('recitation-tip');
+            const container = document.getElementById('recitation-container');
+            const fullContainer = document.getElementById('recitation-full-typing-container');
+
+            if (mode === 'select') {
+                btnSelect.className = "flex-1 py-2 px-3 rounded-lg font-bold bg-white text-emerald-800 shadow transition flex items-center justify-center gap-2";
+                tipEl.innerHTML = '💡 提示：請點擊文字空格選出正確字詞，完成後點擊「提交對答案」檢查完成度！';
+                container.classList.remove('hidden');
+                fullContainer.classList.add('hidden');
+            } else if (mode === 'input') {
+                btnInput.className = "flex-1 py-2 px-3 rounded-lg font-bold bg-white text-emerald-800 shadow transition flex items-center justify-center gap-2";
+                tipEl.innerHTML = '💡 提示：請在各個空格中手打填入正確的國字詞彙，完成後點擊「提交對答案」！';
+                container.classList.remove('hidden');
+                fullContainer.classList.add('hidden');
+            } else if (mode === 'full') {
+                btnFull.className = "flex-1 py-2 px-3 rounded-lg font-bold bg-white text-emerald-800 shadow transition flex items-center justify-center gap-2";
+                tipEl.innerHTML = '💡 提示：考驗大師級記憶！請直接在下方文字框中手打輸入《生於憂患死於安樂》全文！';
+                container.classList.add('hidden');
+                fullContainer.classList.remove('hidden');
+            }
+
+            resetRecitation();
+        }
+
+        function initRecitation() {
+            const container = document.getElementById('recitation-container');
+            container.innerHTML = '';
+            recitationUserAnswers = {};
+
+            if (recitationMode === 'full') {
+                document.getElementById('full-typing-textarea').value = '';
+                document.getElementById('full-typing-result').classList.add('hidden');
+                return;
+            }
+
+            RECITATION_PIECES.forEach((piece, idx) => {
+                if (piece.text) {
+                    const textSpan = document.createElement('span');
+                    textSpan.innerText = piece.text;
+                    container.appendChild(textSpan);
+                }
+
+                if (piece.key) {
+                    if (recitationMode === 'select') {
+                        const selectEl = document.createElement('select');
+                        selectEl.className = "inline-block mx-1 my-1 px-2 py-1 bg-white border border-slate-300 rounded-lg text-sm text-emerald-800 font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-sm cursor-pointer";
+                        selectEl.id = `recitation-blank-${idx}`;
+                        
+                        const defaultOpt = document.createElement('option');
+                        defaultOpt.value = "";
+                        defaultOpt.innerText = "【點擊選擇】";
+                        selectEl.appendChild(defaultOpt);
+
+                        const opts = [...piece.options].sort(() => 0.5 - Math.random());
+                        opts.forEach(optText => {
+                            const o = document.createElement('option');
+                            o.value = optText;
+                            o.innerText = optText;
+                            selectEl.appendChild(o);
+                        });
+
+                        selectEl.onchange = (e) => {
+                            recitationUserAnswers[idx] = e.target.value;
+                        };
+
+                        container.appendChild(selectEl);
+                    } else if (recitationMode === 'input') {
+                        const inputEl = document.createElement('input');
+                        inputEl.type = "text";
+                        inputEl.placeholder = "輸入解答";
+                        inputEl.className = "inline-block mx-1 my-1 px-2 py-1 bg-white border border-slate-300 rounded-lg text-sm text-slate-800 font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none shadow-sm w-32 text-center";
+                        inputEl.id = `recitation-blank-${idx}`;
+
+                        inputEl.oninput = (e) => {
+                            recitationUserAnswers[idx] = e.target.value.trim();
+                        };
+
+                        container.appendChild(inputEl);
+                    }
+                }
+            });
+        }
+
+        function resetRecitation() {
+            initRecitation();
+            document.getElementById('recitation-score-msg').classList.add('hidden');
+            document.getElementById('full-recitation-text').classList.add('hidden');
+        }
+
+        function checkRecitation() {
+            const scoreMsg = document.getElementById('recitation-score-msg');
+            scoreMsg.classList.remove('hidden');
+
+            if (recitationMode === 'full') {
+                checkFullTypingRecitation();
+                return;
+            }
+
+            let correct = 0;
+            let totalBlanks = RECITATION_PIECES.filter(p => p.key !== "").length;
+
+            RECITATION_PIECES.forEach((piece, idx) => {
+                if (piece.key) {
+                    const el = document.getElementById(`recitation-blank-${idx}`);
+                    const userVal = (recitationUserAnswers[idx] || "").trim();
+
+                    if (userVal === piece.key) {
+                        correct++;
+                        el.className = recitationMode === 'select'
+                            ? "inline-block mx-1 my-1 px-2 py-1 bg-emerald-100 border-2 border-emerald-600 rounded-lg text-sm text-emerald-900 font-bold"
+                            : "inline-block mx-1 my-1 px-2 py-1 bg-emerald-100 border-2 border-emerald-600 rounded-lg text-sm text-emerald-900 font-bold w-32 text-center";
+                    } else {
+                        el.className = recitationMode === 'select'
+                            ? "inline-block mx-1 my-1 px-2 py-1 bg-rose-100 border-2 border-rose-500 rounded-lg text-sm text-rose-900 font-bold"
+                            : "inline-block mx-1 my-1 px-2 py-1 bg-rose-100 border-2 border-rose-500 rounded-lg text-sm text-rose-900 font-bold w-32 text-center";
+                    }
+                }
+            });
+
+            if (correct === totalBlanks) {
+                scoreMsg.className = "font-bold text-emerald-600 text-base flex items-center gap-2";
+                scoreMsg.innerHTML = `<i class="fa-solid fa-circle-check text-xl"></i> 太棒了！${recitationMode === 'input' ? '手打填空' : '下拉選擇'}全對！(${correct}/${totalBlanks})`;
+                stats.recitationDone = true;
+                saveStats();
+                if (typeof confetti === 'function') confetti();
+            } else {
+                scoreMsg.className = "font-bold text-rose-600 text-sm flex items-center gap-2";
+                scoreMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> 答對 ${correct} / ${totalBlanks} 題，紅框者請繼續加油！`;
+            }
+        }
+
+        function checkFullTypingRecitation() {
+            const rawUserText = document.getElementById('full-typing-textarea').value;
+            const cleanUser = rawUserText.replace(/[\s\r\n\t「」『』，。；：！？]/g, '');
+            const cleanTarget = FULL_TARGET_TEXT.replace(/[\s\r\n\t「」『』，。；：！？]/g, '');
+
+            const resultDiv = document.getElementById('full-typing-result');
+            resultDiv.classList.remove('hidden');
+
+            let matches = 0;
+            const minLen = Math.min(cleanUser.length, cleanTarget.length);
+            
+            for (let i = 0; i < minLen; i++) {
+                if (cleanUser[i] === cleanTarget[i]) {
+                    matches++;
+                }
+            }
+
+            const accuracy = cleanTarget.length > 0 ? Math.round((matches / cleanTarget.length) * 100) : 0;
+            const scoreMsg = document.getElementById('recitation-score-msg');
+
+            if (accuracy >= 95) {
+                scoreMsg.className = "font-bold text-emerald-600 text-base flex items-center gap-2";
+                scoreMsg.innerHTML = `<i class="fa-solid fa-trophy text-xl"></i> 默寫大師！比對正確率：${accuracy}% (${matches}/${cleanTarget.length} 字)`;
+                stats.recitationDone = true;
+                saveStats();
+                if (typeof confetti === 'function') confetti();
+            } else {
+                scoreMsg.className = "font-bold text-amber-600 text-sm flex items-center gap-2";
+                scoreMsg.innerHTML = `<i class="fa-solid fa-chart-line text-lg"></i> 比對正確率：${accuracy}% (${matches}/${cleanTarget.length} 字)，請對照下方原文校正！`;
+            }
+
+            // Render Diff Visualization
+            let diffHTML = '<h5 class="font-sans font-bold text-slate-800 mb-2">手打輸入文字比對校正：</h5><div class="leading-relaxed font-serif text-base border p-3 rounded-xl bg-white">';
+            
+            for (let i = 0; i < cleanTarget.length; i++) {
+                const targetChar = cleanTarget[i];
+                const userChar = cleanUser[i];
+
+                if (!userChar) {
+                    diffHTML += `<span class="bg-rose-100 text-rose-700 font-bold px-0.5 rounded underline decoration-rose-500" title="漏字">${targetChar}</span>`;
+                } else if (userChar === targetChar) {
+                    diffHTML += `<span class="text-emerald-700 font-bold">${userChar}</span>`;
+                } else {
+                    diffHTML += `<span class="bg-amber-100 text-amber-800 font-bold px-0.5 rounded border-b-2 border-amber-500" title="原字: ${targetChar}">${userChar}</span>`;
+                }
+            }
+
+            if (cleanUser.length > cleanTarget.length) {
+                diffHTML += `<div class="mt-2 text-xs text-rose-600 font-sans">（您多輸入了 ${cleanUser.length - cleanTarget.length} 個字：${cleanUser.substring(cleanTarget.length)}）</div>`;
+            }
+
+            diffHTML += '</div><div class="mt-2 text-xs text-slate-500 font-sans">圖例：<span class="text-emerald-700 font-bold">綠字</span>代表正確 / <span class="bg-amber-100 text-amber-800 font-bold px-1 rounded">黃底</span>代表錯字 / <span class="bg-rose-100 text-rose-700 font-bold px-1 rounded">紅底</span>代表漏字</div>';
+            
+            resultDiv.innerHTML = diffHTML;
+            resultDiv.className = accuracy >= 90 ? "p-4 rounded-2xl border border-emerald-200 bg-emerald-50/50 text-sm leading-relaxed font-serif" : "p-4 rounded-2xl border border-amber-200 bg-amber-50/50 text-sm leading-relaxed font-serif";
+        }
+
+        function loadStats() {
+            const saved = localStorage.getItem('kangxuan_g9_exam2_stats');
+            if (saved) {
+                try {
+                    stats = JSON.parse(saved);
+                    document.getElementById('stat-completed-count').innerText = stats.completedCount;
+                    document.getElementById('stat-highest-score').innerText = stats.highestScore + '%';
+                    document.getElementById('stat-wrong-count').innerText = stats.wrongCount;
+                    document.getElementById('stat-recitation-status').innerText = stats.recitationDone ? '已通過' : '未完成';
+                    if (stats.recitationDone) {
+                        document.getElementById('stat-recitation-status').className = "text-2xl font-black text-emerald-600";
+                    }
+                } catch(e){}
+            }
+        }
+
+        function saveStats() {
+            localStorage.setItem('kangxuan_g9_exam2_stats', JSON.stringify(stats));
+            document.getElementById('stat-completed-count').innerText = stats.completedCount;
+            document.getElementById('stat-highest-score').innerText = stats.highestScore + '%';
+            document.getElementById('stat-wrong-count').innerText = stats.wrongCount;
+            document.getElementById('stat-recitation-status').innerText = stats.recitationDone ? '已通過' : '未完成';
+            if (stats.recitationDone) {
+                document.getElementById('stat-recitation-status').className = "text-2xl font-black text-emerald-600";
+            }
+        }
+
+        function switchTab(tabId) {
+            activeTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            // Update Nav Styles
+            const navIds = ['quiz', 'recitation', 'flashcard', 'study'];
+            navIds.forEach(id => {
+                const btn = document.getElementById(`nav-${id}`);
+                if (btn) {
+                    if (id === tabId) {
+                        btn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 font-bold bg-white text-emerald-800 shadow";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 font-medium hover:bg-emerald-600 text-white";
+                    }
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleScopeFilter(scope) {
+            currentQuizScope = scope;
+            document.querySelectorAll('.scope-btn').forEach(btn => {
+                if (btn.dataset.scope === scope) {
+                    btn.className = "scope-btn px-3 py-2 text-sm rounded-xl border border-emerald-600 bg-emerald-50 text-emerald-700 font-medium";
+                } else {
+                    btn.className = "scope-btn px-3 py-2 text-sm rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium";
+                }
+            });
+        }
+
+        function generateQuizQuestions(scope, count) {
+            let pool = VOCABULARY_DATA;
+            if (scope !== 'all') {
+                pool = VOCABULARY_DATA.filter(item => item.chapter === scope);
+            }
+
+            // Shuffle pool
+            let shuffled = [...pool].sort(() => 0.5 - Math.random());
+            if (count !== 'all' && typeof count === 'number') {
+                shuffled = shuffled.slice(0, Math.min(count, shuffled.length));
+            }
+
+            // Generate options for each question
+            return shuffled.map((item, index) => {
+                // Pick 3 wrong options
+                const wrongPool = VOCABULARY_DATA.filter(v => v.id !== item.id);
+                const shuffledWrong = [...wrongPool].sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                const options = [
+                    { text: item.definition, isCorrect: true },
+                    { text: shuffledWrong[0].definition, isCorrect: false },
+                    { text: shuffledWrong[1].definition, isCorrect: false },
+                    { text: shuffledWrong[2].definition, isCorrect: false }
+                ].sort(() => 0.5 - Math.random());
+
+                return {
+                    id: item.id,
+                    question: `請問「${item.word}」在課文中的正確字義/解釋為何？`,
+                    word: item.word,
+                    chapterName: item.chapterName,
+                    correctAnswer: item.definition,
+                    explanation: item.note || `「${item.word}」之正確解釋為：「${item.definition}」。`,
+                    options: options
+                };
+            });
+        }
+
+        function startQuiz(count) {
+            activeQuestions = generateQuizQuestions(currentQuizScope, count);
+            if (activeQuestions.length === 0) return;
+
+            currentQuestionIdx = 0;
+            userAnswers = {};
+            isQuizSubmitted = false;
+
+            document.getElementById('quiz-setup-card').classList.add('hidden');
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            document.getElementById('quiz-active-card').classList.remove('hidden');
+
+            document.getElementById('total-q-count').innerText = activeQuestions.length;
+            document.getElementById('quiz-scope-badge').innerText = getScopeName(currentQuizScope);
+
+            // Start Timer
+            quizStartTime = new Date();
+            if (quizTimerInterval) clearInterval(quizTimerInterval);
+            quizTimerInterval = setInterval(updateQuizTimer, 1000);
+
+            renderQuestion();
+        }
+
+        function getScopeName(scope) {
+            switch(scope) {
+                case 'ch4': return '第四課';
+                case 'ch5': return '第五課';
+                case 'ch6': return '第六課';
+                case 'couplet': return '語文天地對聯';
+                default: return '全範圍';
+            }
+        }
+
+        function updateQuizTimer() {
+            if (!quizStartTime) return;
+            const now = new Date();
+            const elapsedSecs = Math.floor((now - quizStartTime) / 1000);
+            const mins = String(Math.floor(elapsedSecs / 60)).padStart(2, '0');
+            const secs = String(elapsedSecs % 60).padStart(2, '0');
+            document.getElementById('quiz-timer').innerText = `${mins}:${secs}`;
+        }
+
+        function renderQuestion() {
+            const q = activeQuestions[currentQuestionIdx];
+            document.getElementById('current-q-index').innerText = currentQuestionIdx + 1;
+            
+            // Progress Bar
+            const percent = ((currentQuestionIdx + 1) / activeQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${percent}%`;
+
+            document.getElementById('question-text').innerText = q.question;
+
+            // Render Options
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+
+            const selectedOpt = userAnswers[currentQuestionIdx];
+
+            q.options.forEach((opt, idx) => {
+                const optBtn = document.createElement('button');
+                let btnStyle = "p-4 rounded-xl text-left border border-slate-200 transition font-medium text-slate-700 hover:border-emerald-500 hover:bg-emerald-50/50 flex items-center justify-between";
+                
+                if (selectedOpt !== undefined && selectedOpt === idx) {
+                    btnStyle = "p-4 rounded-xl text-left border-2 border-emerald-600 bg-emerald-50 font-bold text-emerald-900 flex items-center justify-between shadow-sm";
+                }
+
+                optBtn.className = btnStyle;
+                optBtn.onclick = () => selectOption(idx);
+
+                const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
+                optBtn.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">${optionLetter}</span>
+                        <span>${opt.text}</span>
+                    </div>
+                    ${selectedOpt === idx ? '<i class="fa-solid fa-circle-check text-emerald-600"></i>' : ''}
+                `;
+                optsContainer.appendChild(optBtn);
+            });
+
+            // Prev button state
+            document.getElementById('prev-q-btn').disabled = (currentQuestionIdx === 0);
+
+            // Next / Finish button state
+            const nextBtn = document.getElementById('next-q-btn');
+            if (currentQuestionIdx === activeQuestions.length - 1) {
+                nextBtn.innerHTML = `<span>完成提交</span> <i class="fa-solid fa-paper-plane"></i>`;
+                nextBtn.className = "bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-6 py-2 rounded-xl text-sm transition shadow flex items-center gap-2";
+            } else {
+                nextBtn.innerHTML = `<span>下一題</span> <i class="fa-solid fa-arrow-right"></i>`;
+                nextBtn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2 rounded-xl text-sm transition shadow flex items-center gap-2";
+            }
+
+            // Explanation box (hide during active test)
+            document.getElementById('explanation-box').classList.add('hidden');
+        }
+
+        function selectOption(optIdx) {
+            userAnswers[currentQuestionIdx] = optIdx;
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIdx > 0) {
+                currentQuestionIdx--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIdx < activeQuestions.length - 1) {
+                currentQuestionIdx++;
+                renderQuestion();
+            } else {
+                // Complete Quiz
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            if (quizTimerInterval) clearInterval(quizTimerInterval);
+
+            let correctCount = 0;
+            let wrongItems = [];
+
+            activeQuestions.forEach((q, idx) => {
+                const userOptIdx = userAnswers[idx];
+                if (userOptIdx !== undefined && q.options[userOptIdx].isCorrect) {
+                    correctCount++;
+                } else {
+                    const selectedText = (userOptIdx !== undefined) ? q.options[userOptIdx].text : '未作答';
+                    wrongItems.push({
+                        question: q.question,
+                        word: q.word,
+                        userAns: selectedText,
+                        correctAns: q.correctAnswer,
+                        explanation: q.explanation
+                    });
+                }
+            });
+
+            const score = Math.round((correctCount / activeQuestions.length) * 100);
+            const timeTaken = document.getElementById('quiz-timer').innerText;
+
+            // Update local stats
+            stats.completedCount++;
+            if (score > stats.highestScore) stats.highestScore = score;
+            stats.wrongCount += wrongItems.length;
+            saveStats();
+
+            // Display Results
+            document.getElementById('quiz-active-card').classList.add('hidden');
+            document.getElementById('quiz-result-card').classList.remove('hidden');
+
+            document.getElementById('result-score').innerText = score;
+            document.getElementById('result-accuracy').innerText = `${score}%`;
+            document.getElementById('result-time').innerText = timeTaken;
+
+            // Trigger Confetti for high score
+            if (score >= 80 && typeof confetti === 'function') {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+
+            // Render Wrong Questions
+            const wrongContainer = document.getElementById('wrong-questions-list');
+            const wrongSection = document.getElementById('wrong-questions-section');
+
+            if (wrongItems.length > 0) {
+                wrongSection.classList.remove('hidden');
+                wrongContainer.innerHTML = wrongItems.map(item => `
+                    <div class="p-4 rounded-xl bg-rose-50/50 border border-rose-200/60 text-sm space-y-1">
+                        <div class="font-bold text-slate-800">${item.question}</div>
+                        <div class="text-xs text-rose-600 font-semibold">您的回答：${item.userAns}</div>
+                        <div class="text-xs text-emerald-700 font-semibold">正確解答：${item.correctAns}</div>
+                        <div class="text-xs text-slate-500 pt-1">${item.explanation}</div>
+                    </div>
+                `).join('');
+            } else {
+                wrongSection.classList.add('hidden');
+            }
+        }
+
+        function restartQuiz() {
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            document.getElementById('quiz-setup-card').classList.remove('hidden');
+        }
+
+        function toggleRecitationAnswer() {
+            const el = document.getElementById('full-recitation-text');
+            el.classList.toggle('hidden');
+        }
+
+        function initFlashcards() {
+            changeFlashcardScope(flashcardScope);
+        }
+
+        function changeFlashcardScope(scope) {
+            flashcardScope = scope;
+            if (scope === 'all') {
+                currentCardList = VOCABULARY_DATA;
+            } else {
+                currentCardList = VOCABULARY_DATA.filter(item => item.chapter === scope);
+            }
+            currentCardIdx = 0;
+            isCardFlipped = false;
+            updateFlashcardUI();
+        }
+
+        function updateFlashcardUI() {
+            if (currentCardList.length === 0) return;
+
+            const card = currentCardList[currentCardIdx];
+            document.getElementById('card-chapter-tag').innerText = card.chapterName;
+            document.getElementById('card-word').innerText = card.word;
+            document.getElementById('card-definition').innerText = card.definition;
+
+            document.getElementById('card-index').innerText = currentCardIdx + 1;
+            document.getElementById('card-total').innerText = currentCardList.length;
+
+            // Reset card flip
+            isCardFlipped = false;
+            document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
+        }
+
+        function flipCard() {
+            isCardFlipped = !isCardFlipped;
+            const inner = document.getElementById('flashcard-inner');
+            if (isCardFlipped) {
+                inner.classList.add('rotate-y-180');
+            } else {
+                inner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            if (currentCardIdx < currentCardList.length - 1) {
+                currentCardIdx++;
+                updateFlashcardUI();
+            } else {
+                currentCardIdx = 0; // Loop around
+                updateFlashcardUI();
+            }
+        }
+
+        function prevCard() {
+            if (currentCardIdx > 0) {
+                currentCardIdx--;
+                updateFlashcardUI();
+            } else {
+                currentCardIdx = currentCardList.length - 1;
+                updateFlashcardUI();
+            }
+        }
+
+        function filterStudyScope(scope) {
+            studyScope = scope;
+            document.querySelectorAll('.study-scope-btn').forEach(btn => {
+                if (btn.dataset.studyscope === scope) {
+                    btn.className = "study-scope-btn font-semibold px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800";
+                } else {
+                    btn.className = "study-scope-btn text-slate-600 hover:bg-slate-100 px-3 py-1.5 rounded-lg";
+                }
+            });
+            renderStudyTable();
+        }
+
+        function toggleHideAnswers() {
+            hideAnswers = !hideAnswers;
+            const btn = document.getElementById('toggle-hide-btn');
+            if (hideAnswers) {
+                btn.innerHTML = `<i class="fa-solid fa-eye"></i> 顯示解釋`;
+                btn.className = "px-3 py-1.5 text-xs bg-emerald-600 text-white font-semibold rounded-xl transition";
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-eye-slash"></i> 遮蔽解釋自測`;
+                btn.className = "px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 transition";
+            }
+            renderStudyTable();
+        }
+
+        function renderStudyTable() {
+            const tbody = document.getElementById('study-table-body');
+            const searchKeyword = document.getElementById('study-search').value.trim().toLowerCase();
+
+            let items = VOCABULARY_DATA;
+
+            // Scope filter
+            if (studyScope !== 'all') {
+                items = items.filter(i => i.chapter === studyScope);
+            }
+
+            // Search filter
+            if (searchKeyword !== '') {
+                items = items.filter(i => 
+                    i.word.toLowerCase().includes(searchKeyword) || 
+                    i.definition.toLowerCase().includes(searchKeyword) ||
+                    i.chapterName.toLowerCase().includes(searchKeyword)
+                );
+            }
+
+            if (items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="p-8 text-center text-slate-400">
+                            <i class="fa-solid fa-folder-open text-3xl mb-2"></i>
+                            <p>沒有找到符合條件的詞條</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = items.map(item => `
+                <tr class="hover:bg-slate-50/80 transition">
+                    <td class="p-3.5">
+                        <span class="text-xs px-2.5 py-1 rounded-md font-semibold ${getChapterBadgeColor(item.chapter)}">
+                            ${item.chapterName}
+                        </span>
+                    </td>
+                    <td class="p-3.5 font-bold text-slate-800 text-base">
+                        ${item.word}
+                    </td>
+                    <td class="p-3.5 text-slate-700">
+                        ${hideAnswers ? `
+                            <span onclick="this.innerText='${item.definition}'; this.className='text-slate-700 font-medium';" class="cursor-pointer bg-slate-200 hover:bg-slate-300 text-transparent select-none px-3 py-1 rounded transition">
+                                ${item.definition}
+                            </span>
+                        ` : `
+                            <span class="font-medium">${item.definition}</span>
+                            ${item.note ? `<span class="block text-xs text-slate-400 mt-0.5">${item.note}</span>` : ''}
+                        `}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getChapterBadgeColor(chapter) {
+            switch(chapter) {
+                case 'ch4': return 'bg-emerald-100 text-emerald-800';
+                case 'ch5': return 'bg-blue-100 text-blue-800';
+                case 'ch6': return 'bg-amber-100 text-amber-800';
+                case 'couplet': return 'bg-purple-100 text-purple-800';
+                default: return 'bg-slate-100 text-slate-700';
+            }
+        }
+
+        function openDisclaimerModal() {
+            document.getElementById('disclaimer-modal').classList.remove('hidden');
+        }
+
+        function closeDisclaimerModal() {
+            document.getElementById('disclaimer-modal').classList.add('hidden');
+        }
+
+        function confirmAndDownload(type) {
+            const links = {
+                answer: 'https://drive.google.com/file/d/1CjMDMC2Hajfs3ERC458UHPZksvOtTwHN/view?usp=drive_link',
+                blank: 'https://drive.google.com/file/d/1rLNluTgZhawj4f-3gDUF58XpGDQ0g5-W/view?usp=sharing'
+            };
+
+            if (links[type]) {
+                window.open(links[type], '_blank');
+                closeDisclaimerModal();
+            }
+        }
+    </script>
+</body>
+</html>
